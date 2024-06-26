@@ -1,10 +1,10 @@
 <template>
-    <div :class="className"  data-accordion="collapse" class="border border-gray-200"
+    <div :class="className"  data-accordion="collapse" class="border border-gray-200 rounded-lg m-1"
         data-active-classes="dark:bg-gray-900 text-gray-900 dark:text-white"
         data-inactive-classes="dark:bg-gray-900 text-gray-900 dark:text-white">
         <h2>
             <button @click="call" type="button"
-                class="flex handle  items-center justify-between w-full bg-[#d9d9d9] py-2 px-2 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
+                class="flex handle  items-center justify-between w-full py-2 px-2 font-medium rtl:text-right text-gray-500 gap-3 block p-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 cursor-pointer">
                 <span>{{ item?.label }}</span>
                 <div class="flex items-center">
                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"

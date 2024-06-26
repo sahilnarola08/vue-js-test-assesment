@@ -18,75 +18,73 @@ export const useListStore = defineStore('List', () => {
       })
     });
   }
-
-  function addData(val:any): any {
-    const labelExists = List.value?.some((item:any) => item.label.toLowerCase() === val.label.toLowerCase());
-    if (!labelExists) {
-        List.value = [...List.value,val]
-        toast("Data Item Successfully", { autoClose: 1000, type: "success" });
-        return true;
-    } else {
-        toast("Already Added", { autoClose: 1000 , type: "error" });
-        return false;
-    }
+  function giveValue(val:any) {
+    List.value = val 
   }
-  function addSubData(checkVal:string,val:any) {
-    var data;
-    List.value.forEach((element:any) => {
-      if(element.label == checkVal){
-        var labelExists = element.children?.some((item:any) => item.label.toLowerCase() === val.label.toLowerCase());
-        if (!labelExists) {
-            element.children = [...element.children,val]
-            toast("Sub Item Added Successfully", { autoClose: 1000, type: "success" });
-            data = true;
-        } else {
-            toast("Already Added", { autoClose: 1000 , type: "error" });
-            data = false;
-        }
+  function addData(checkVal?:string,val?:any,status?:any): any {
+    if(status == "PERENT"){
+      const labelExists = List.value?.some((item:any) => item.label.toLowerCase() === val.label.toLowerCase());
+      if (!labelExists) {
+          List.value = [...List.value,val]
+          toast("Item Successfully", { autoClose: 1000, type: "success" });
+          return true;
+      } else {
+          toast("Item Already Added", { autoClose: 1000 , type: "error" });
+          return false;
       }
-    });
-    return data
-  }
-  function addSubChildData(checkVal:string,val:any) {
-    var data;
-    List.value.forEach((element:any) => {
-      element.children.forEach((item:any) =>{
-        if(item.label == checkVal){
-          var labelExists = item.children?.some((item:any) => item.label.toLowerCase() === val.label.toLowerCase());
+    }else if(status == "CHILD"){
+      var data;
+      List.value.forEach((element:any) => {
+        if(element.label == checkVal){
+          var labelExists = element.children?.some((item:any) => item.label.toLowerCase() === val.label.toLowerCase());
           if (!labelExists) {
-              item.children = [...item.children,val]
-              toast("Sub Item Added Successfully", { autoClose: 1000, type: "success" });
+              element.children = [...element.children,val]
+              toast("Item Added Successfully", { autoClose: 1000, type: "success" });
               data = true;
           } else {
-              toast("Already Added", { autoClose: 1000 , type: "error" });
+              toast("Item Already Added", { autoClose: 1000 , type: "error" });
               data = false;
           }
         }
-      })
-    });
-    return data
-  }
-  
-  function deleteData(checkVal:string,status:string) {
-    var data;
-    List.value.forEach((element:any) => {
-      element.children.forEach((item:any) =>{
-        item.children.forEach((x:any) =>{
-          if(x.label == checkVal && status == "SUBCHILD"){
-            item.children = item.children.filter((x:any) => x.label != checkVal)
-            toast("Sub Item Delete Successfully", { autoClose: 1000, type: "success" });
+      });
+      return data
+    }else if(status == "SUBCHILD"){
+      var data;
+      List.value.forEach((element:any) => {
+        element.children.forEach((item:any) =>{
+          if(item.label == checkVal){
+            var labelExists = item.children?.some((item:any) => item.label.toLowerCase() === val.label.toLowerCase());
+            if (!labelExists) {
+                item.children = [...item.children,val]
+                toast("Sub Item Added Successfully", { autoClose: 1000, type: "success" });
+                data = true;
+            } else {
+                toast("Already Added", { autoClose: 1000 , type: "error" });
+                data = false;
+            }
           }
         })
-        if(item.label == checkVal && status == "CHILD"){
-          element.children = element.children.filter((x:any) => x.label != checkVal)
-          toast("Sub Item Delete Successfully", { autoClose: 1000, type: "success" });
-        }
-      })
-    });
-    return data
+      });
+      return data
+    }
+  }
+  function removeItemByLabel(arr:any, label:any) {
+    console.log(label)
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      if (item.label === label) {
+        arr.splice(i, 1); 
+        return true; 
+      }
+      if (item.children && item.children.length > 0) {
+        const childRemoved = removeItemByLabel(item.children, label);
+        if (childRemoved) return true; 
+      }
+    }
+    return false; 
   }
 
-  return { List, addData , addSubData ,addSubChildData, reloadGrid, deleteData}
+  return { List, addData , reloadGrid, removeItemByLabel,giveValue}
 },
 {
   persist: {

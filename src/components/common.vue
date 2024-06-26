@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-end">
-        <button v-if="btn" @click="opneModel" class="mr-3 pr-2 px-2 py-1 border border-gray-700 ">
+        <button v-if="inputData.status == 'PERENT' || inputData.status == 'CHILD'" @click="opneModel" class="mr-3 pr-2 px-2 py-1 border border-gray-700 rounded-lg">
             Add Sub Item
         </button>
     </div>
@@ -9,46 +9,43 @@
             <label for="Lable">
                 Label
             </label>
-            <input v-model="inputData.label"  type="text" id="Lable" class="border border-gray-300 py-0 px-4">
+            <input type="text" v-model="inputData.label" id="Label" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Label" required />
         </div>
         <div class="flex flex-col w-full">
-            <label for="Class">
+            <label for="ClassInput">
                 Class CSS (optional)
             </label>
-            <input v-model="inputData.ClassInput" type="text" id="Class" class="border border-gray-300 py-0 px-4" />
+            <input type="text" v-model="inputData.ClassInput" id="ClassInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Class Input" required />
         </div>
     </div>
-    <div class="flex px-4 flex-col">
-        <label for="Url">
+    <div class="flex px-4 mt-2 flex-col">
+        <label for="URl">
             Url
         </label>
-        <input type="text" id="Url" class="border border-gray-300 py-0 px-4"
-        v-model="inputData.Url">
+        <input type="text" v-model="inputData.Url" id="URl" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="URL" required />
     </div>
-    <div class="px-4 pt-1"><a href="javascript:void(0)" @click="DeleteData" class="text-lg text-blue-500">Delete</a> | <button
-            class="mt-4 mr-3 pr-2 px-2 py-1 border text-white bg-blue-500 border-blue-700 " @click="emit('expand')">Cancel</button>
+    <div class="px-4  mt-3">
+        <button  @click="DeleteData" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5  mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Delete</button> 
+        <button @click="emit('expand')" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-md ml-2 text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancel</button>
     </div>
     <Model @closeModel="Close()" :show="show">
        <div class="p-2">
-            <div class="flex justify-around items-center mb-2">
-                <label for="url" class="mr-2 w-1/12">URL</label>
-                <input type="text" id="url" class="border border-gray-300 py-0 px-4"
-                    v-model="formData.URL">
+            <div class="mx-2">
+                <label for="URL" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+                <input type="text" v-model="formData.URL" id="URL" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="URL" required />
             </div>
             <div class="input-errors mb-2" v-for="error of v$.URL.$errors" :key="error.$uid">
-                    <div class="ml-[148px] error-msg text-red-500">{{ error.$message }}</div>
-                </div>
-            <div class="flex justify-around items-center">
-                <label for="label" class="mr-2 w-1/12">Label</label>
-                <input type="text" id="label" class="border border-gray-300 py-0 px-4" v-model="formData.Label">
+                <div class="ml-2 error-msg text-red-500">{{ error.$message }}</div>
             </div>
-            <div class="input-errors mb-2 mt-2" v-for="error of v$.Label.$errors" :key="error.$uid">
-                <div class="ml-[148px] error-msg text-red-500">{{ error.$message }}</div>
+            <div class="mx-2">
+                <label for="Label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Label</label>
+                <input type="text" v-model="formData.Label" id="Label" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Label" required />
             </div>
-            <div class="flex justify-end">
-                <button @click="AddMenu" class="mt-4 mr-3 pr-2 px-2 py-1 border border-gray-700 ">
-                    Save
-                </button>
+            <div class="input-errors mb-2" v-for="error of v$.Label.$errors" :key="error.$uid">
+                <div class="ml-2 error-msg text-red-500">{{ error.$message }}</div>
+            </div>
+            <div class="flex justify-end mt-2">
+                <button @click="AddMenu" type="button" class="py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Save</button>
             </div>
        </div>
     </Model>
@@ -60,12 +57,12 @@ import { useVuelidate } from '@vuelidate/core'
 import { required , helpers } from '@vuelidate/validators'
 const ListStore = useListStore()
 const emit = defineEmits(['expand'])
-const props = defineProps(['inputData','btn'])
+const props = defineProps(['inputData','btn','status'])
 const deleteId = ref(props.inputData.label) 
 const show = ref(false)
-const formData = ref<{Label: string,URL:string}>({
-    Label: '',
-    URL: ''
+const formData = ref<{Label: string | null,URL:string | null}>({
+    Label: null,
+    URL: null
 })
 const rules = {
     Label: {
@@ -80,49 +77,29 @@ const opneModel = () => {
     show.value = true
 }
 const Close = () => {
-    show.value = false,
     formData.value = {
-        Label: '',
-        URL: ''
+        Label: null,
+        URL: null
     }
-    v$.value.$reset()
+    show.value = false
 }
 const AddMenu = () => {
-    var val;
-    ListStore?.List.map((x:any) => val = x.children?.includes(props.inputData))
     v$.value.$validate()
     if(v$.value.$invalid) return
-    if(props.inputData.hasOwnProperty("children") && !val){
-         const data: any = ListStore.addSubData(props.inputData?.label,{ label: formData.value.Label, show: false, ClassInput: '',showSideDropDown: false, Url: formData.value.URL,children: []})
-         if(data){
-            formData.value = {
-                Label: '',
-                URL: ''
-            }
-            Close()
-            v$.value.$reset()
-        }
-    }
-    else{
-        const data: any = ListStore.addSubChildData(props.inputData?.label,{ label: formData.value.Label, show: false, ClassInput: '',showSideDropDown: false, Url: formData.value.URL,children: []})
+    if(props.inputData.status == "PERENT"){
+        const data: any = ListStore.addData(props.inputData?.label,{ status:'CHILD', label: formData.value.Label, show: false, ClassInput: '',showSideDropDown: false, Url: formData.value.URL,children: []},"CHILD")
         if(data){
-            formData.value = {
-                Label: '',
-                URL: ''
-            }
             Close()
-            v$.value.$reset()
+        }
+    }else if(props.inputData.status == "CHILD"){
+        const data: any = ListStore.addData(props.inputData?.label,{ status:'SUBCHILD', label: formData.value.Label, show: false, ClassInput: '',showSideDropDown: false, Url: formData.value.URL,children: []},"SUBCHILD")
+        if(data){
+            Close()
         }
     }
+    
 }
 const DeleteData = () => {
-    var val;
-    ListStore?.List.map((x:any) => val = x.children?.includes(props.inputData))
-    if(props.inputData.hasOwnProperty("children") && !val){
-        ListStore.deleteData(deleteId.value,'SUBCHILD')
-    }
-    else{
-        ListStore.deleteData(deleteId.value,'CHILD')
-    }
+    ListStore.removeItemByLabel(ListStore.List,props.inputData?.label)
 }
 </script>

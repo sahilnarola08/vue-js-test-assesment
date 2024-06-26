@@ -10,8 +10,11 @@ import router from './router'
 import Accordion  from './components/accordion.vue'
 import Common  from './components/common.vue'
 import Model  from './components/model.vue'
+
+
 const app = createApp(App)
 
+app.use(createPinia())
 app.use(pinia)
 app.use(router)
 app.component("Accordion", Accordion)
